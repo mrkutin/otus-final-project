@@ -1,7 +1,7 @@
 import express from 'express'
 
 const router = express.Router()
-import licenses from '../data/licenses.mjs'
+import licenses from '../adapters/licenses.mjs'
 
 router.post('/users/:user_id/licenses', async (req, res) => {
     if (!req.user) {

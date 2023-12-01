@@ -1,0 +1,27 @@
+#=================== Создание пользователя ===================
+# curl --location 'http://localhost:3000/users'
+#--header 'Content-Type: application/json'
+#--data '{"name": "first", "password": "topsecret"}'
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{"name": "first", "password": "topsecret"}
+
+###
+#=================== Создание пользователя ===================
+
+#=================== Получение пользователя ===================
+# curl --location --request GET 'http://localhost:3000/users/6569d0a6c5a5a959d39b80ad'
+#--header 'Content-Type: application/json'
+#--data '{"name": "first", "password": "topsecret"}'
+GET http://localhost:3000/users/6569d0a6c5a5a959d39b80ad
+Content-Type: application/json
+
+{
+  "name": "first",
+  "password": "topsecret"
+}
+
+###
+#=================== Получение пользователя ===================
+

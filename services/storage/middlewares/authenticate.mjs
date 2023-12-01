@@ -1,4 +1,4 @@
-import users from '../data-layer/users.mjs'
+import users from '../adapters/users.mjs'
 
 const authenticate = async (req, res, next) => {
     if (!req.headers.authorization) {
