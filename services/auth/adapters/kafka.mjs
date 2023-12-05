@@ -15,6 +15,7 @@ const send = async doc => {
         topic: 'users-topic',
         messages: [
             {
+                key: doc.region,
                 value: JSON.stringify(doc)
             }
         ]
