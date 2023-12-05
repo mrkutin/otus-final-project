@@ -16,8 +16,7 @@ router.post('/users', async (req, res) => {
         const user_id = await users.create(req.body)
         res.send({user_id})
     } catch (err) {
-        console.log(err.message)
-        return res.status(500).send('Ошибка сервера')
+        return res.status(500).send(err.message)
     }
 })
 
@@ -33,8 +32,7 @@ router.post('/login', async (req, res) => {
         }
         res.status(404).send('Пользователь не найден')
     } catch (err) {
-        console.log(err.message)
-        return res.status(500).send('Ошибка сервера')
+        return res.status(500).send(err.message)
     }
 })
 
@@ -43,14 +41,13 @@ router.get('/users/:id', async (req, res) => {
         return res.status(400).send('Невалидные данные')
     }
     try {
-        const user = await users.get(req.params.id)
+        const user = await users.get({_id: req.params.id})
         if (user) {
             return res.send(user)
         }
-        res.status(404).send('Анкета не найдена')
+        res.status(404).send('Пользователь не найден')
     } catch (err) {
-        console.log(err.message)
-        return res.status(500).send('Ошибка сервера')
+        return res.status(500).send(err.message)
     }
 })
 

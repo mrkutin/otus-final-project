@@ -73,7 +73,10 @@ const get = async filter => {
     if (filter._id && typeof filter._id === 'string') {
         filter._id = new ObjectId(filter._id)
     }
-    const {password, ...res} = await dbUsers.findOne(filter)
+    const res = await dbUsers.findOne(filter)
+    if (res) {
+        delete res.password
+    }
     return res
 }
 
