@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 const DB_HOST = process.env.DB_HOST || 'localhost'
 const DB_PORT = process.env.DB_PORT || 27017
 const DB_USER = process.env.DB_USER || 'root'
@@ -20,13 +22,20 @@ const licenseDb = client.db(DB_NAME)
 const dbLicenses = licenseDb.collection('licenses')
 
 const create = async doc => {
-    const res = await dbLicenses.insertOne({...doc, created_at: new Date()})
+    const res = await dbLicenses.insertOne(
+        {
+            ...doc,
+            created_at: new Date()
+        })
+
     return res.insertedId.toString()
 }
 
-const get = async id => {
-    const res = await dbLicenses.findOne({_id: new ObjectId(id)})
-    return res || null
+const get = async filter => {
+    if (filter._id && typeof filter._id === 'string') {
+        filter._id = new ObjectId(filter._id)
+    }
+    return dbLicenses.findOne(filter)
 }
 
 export default {create, get}
