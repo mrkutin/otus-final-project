@@ -1,21 +1,11 @@
-import {Kafka} from 'kafkajs'
+import kafka from './adapters/kafka.mjs'
 
-const kafka = new Kafka({
-    clientId: 'otus-final-project',
-    brokers: ['localhost:9092']
-})
+const processor = async ({topic, partition, message}) => {
+    console.log({
+        partition,
+        offset: message.offset,
+        value: message.value.toString()
+    })
+}
 
-const consumer = kafka.consumer({ groupId: 'storage' })
-
-await consumer.connect()
-await consumer.subscribe({ topic: 'users-topic', fromBeginning: true })
-
-await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-        console.log({
-            partition,
-            offset: message.offset,
-            value: message.value.toString(),
-        })
-    },
-})
+await kafka.run(processor)
