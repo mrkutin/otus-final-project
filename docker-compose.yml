@@ -23,8 +23,8 @@ services:
     hostname: localhost
     ports:
       - "9092:9092"
-    volumes:
-      - "kafka_data:/bitnami"
+#    volumes:
+#      - "kafka_data:/bitnami"
     environment:
       - KAFKA_ADVERTISED_HOST_NAME=127.0.0.1
       - ZOOKEEPER_IP=127.0.0.1
@@ -39,6 +39,6 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-volumes:
-  kafka_data:
-    driver: local
+#volumes:
+#  kafka_data:
+#    driver: local

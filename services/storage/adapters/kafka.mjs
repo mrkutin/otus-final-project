@@ -1,3 +1,5 @@
+const TOPICS = ['users', 'licenses']
+
 import {Kafka} from 'kafkajs'
 
 const kafka = new Kafka({
@@ -5,10 +7,16 @@ const kafka = new Kafka({
     brokers: ['localhost:9092']
 })
 
-const consumer = kafka.consumer({ groupId: 'storage' })
+const admin = kafka.admin()
+await admin.connect()
+await admin.createTopics({
+    topics: TOPICS.map(topic => ({ topic }))
+})
+await admin.disconnect()
 
+const consumer = kafka.consumer({groupId: 'storage'})
 await consumer.connect()
-await consumer.subscribe({ topic: 'users-topic', fromBeginning: true })
+await consumer.subscribe({topics: TOPICS, fromBeginning: true})
 
 const run = processor => {
     return consumer.run({

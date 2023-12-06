@@ -12,11 +12,11 @@ console.log()
 
 const send = async doc => {
     await producer.send({
-        topic: 'users-topic',
+        topic: 'users',
         messages: [
             {
                 key: doc.region,
-                value: JSON.stringify(doc)
+                value: JSON.stringify({action: 'create', doc})
             }
         ]
     })
