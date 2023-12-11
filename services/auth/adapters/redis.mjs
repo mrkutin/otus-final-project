@@ -1,6 +1,4 @@
 import Redis from 'ioredis'
-
-
 const redis = new Redis()
 
 // const authenticate = async (user_id, password) => {
@@ -30,8 +28,8 @@ const create = async doc => {
         .exec()
 }
 
-const get = async name => {
-    return redis.get(name)
-}
+// const get = async name => {
+//     return redis.get(name)
+// }
 
-export default {create, get}
+export default {create}
