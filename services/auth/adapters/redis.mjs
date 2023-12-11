@@ -26,7 +26,7 @@ const create = async doc => {
     return redis
         .multi()
         .set(`users:${doc.id}`, JSON.stringify(doc, null, 2))
-        .sadd('users-outbox', doc.id)
+        .sadd('users-outbox', `create:${doc.id}`)
         .exec()
 }
 

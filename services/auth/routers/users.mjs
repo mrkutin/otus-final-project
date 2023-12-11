@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 
-import crypto from 'crypto'
+import {createHash} from 'node:crypto'
 import {v4 as uuid} from 'uuid'
 
 import redisAdapter from '../adapters/redis.mjs'
@@ -17,7 +17,7 @@ router.post('/users', async (req, res) => {
         }
 
         if (doc.password) {
-            doc.password = crypto.createHash('sha256').update(doc.password, 'utf8').digest().toString()
+            doc.password = createHash('sha256').update(doc.password, 'utf8').digest('hex')
         }
 
         await redisAdapter.create(doc)
