@@ -1,6 +1,5 @@
 import Redis from 'ioredis'
-import crypto from 'crypto'
-import {v4 as uuid} from 'uuid'
+
 
 const redis = new Redis()
 
@@ -24,19 +23,11 @@ const redis = new Redis()
 // const findByToken = token => dbUsers.findOne({token})
 
 const create = async doc => {
-    doc.id = uuid()
-
-    if (doc.password) {
-        doc.password = crypto.createHash('sha256').update(doc.password, 'utf8').digest().toString()
-    }
-
-    await redis
+    return redis
         .multi()
         .set(`users:${doc.id}`, JSON.stringify(doc, null, 2))
         .sadd('users-outbox', doc.id)
         .exec()
-
-    return doc
 }
 
 const get = async name => {
