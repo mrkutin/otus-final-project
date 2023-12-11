@@ -1,10 +1,12 @@
 const TOPICS = ['users', 'licenses']
 
-import {Kafka} from 'kafkajs'
+const KAFKA_HOST = process.env.KAFKA_HOST || 'localhost'
+const KAFKA_PORT = parseInt(process.env.KAFKA_PORT) || 9092
 
+import {Kafka} from 'kafkajs'
 const kafka = new Kafka({
-    clientId: 'otus-final-project',
-    brokers: ['localhost:9092']
+    clientId: 'storage',
+    brokers: [`${KAFKA_HOST}:${KAFKA_PORT}`]
 })
 
 const admin = kafka.admin()
