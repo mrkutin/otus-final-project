@@ -1,5 +1,8 @@
+const REDIS_HOST = process.env.REDIS_HOST || 'localhost'
+const REDIS_PORT = parseInt(process.env.REDIS_PORT) || 6379
+
 import Redis from 'ioredis'
-const redis = new Redis()
+const redis = new Redis(`redis://${REDIS_HOST}:${REDIS_PORT}`)
 
 // const authenticate = async (user_id, password) => {
 //     const token = uuid()

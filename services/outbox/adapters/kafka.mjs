@@ -1,8 +1,10 @@
-import {Kafka} from 'kafkajs'
+const KAFKA_HOST = process.env.KAFKA_HOST || 'localhost'
+const KAFKA_PORT = parseInt(process.env.KAFKA_PORT) || 9092
 
+import {Kafka} from 'kafkajs'
 const kafka = new Kafka({
     clientId: 'outbox',
-    brokers: ['localhost:9092']
+    brokers: [`${KAFKA_HOST}:${KAFKA_PORT}`]
 })
 
 const producer = kafka.producer()
