@@ -7,6 +7,7 @@ import {v4 as uuid} from 'uuid'
 import redisAdapter from '../adapters/redis.mjs'
 
 router.post('/users', async (req, res) => {
+    console.log(`${req.url} received ${JSON.stringify(req.body)}`)
     if (!req.body.name || !req.body.password) {
         return res.status(400).send('Невалидные данные')
     }

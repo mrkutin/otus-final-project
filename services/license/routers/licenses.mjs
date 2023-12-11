@@ -6,6 +6,7 @@ import {v4 as uuid} from 'uuid'
 import redisAdapter from '../adapters/redis.mjs'
 
 router.post('/users/:id/licenses', async (req, res) => {
+    console.log(`${req.url} received ${JSON.stringify(req.body)}`)
     try {
         const doc = req.body
 
