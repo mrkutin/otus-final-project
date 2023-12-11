@@ -1,7 +1,7 @@
 import {Kafka} from 'kafkajs'
 
 const kafka = new Kafka({
-    clientId: 'otus-final-project',
+    clientId: 'outbox',
     brokers: ['localhost:9092']
 })
 
