@@ -8,11 +8,9 @@ const kafka = new Kafka({
 const producer = kafka.producer()
 await producer.connect()
 
-console.log()
-
-const send = async doc => {
+const send = async (topic, doc) => {
     await producer.send({
-        topic: 'users',
+        topic,
         messages: [
             {
                 key: doc.region,
@@ -21,7 +19,5 @@ const send = async doc => {
         ]
     })
 }
-
-// Producing
 
 export default {send}

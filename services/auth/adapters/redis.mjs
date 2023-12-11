@@ -26,18 +26,21 @@ const redis = new Redis()
 const create = async doc => {
     doc.id = uuid()
 
-    if(doc.password){
+    if (doc.password) {
         doc.password = crypto.createHash('sha256').update(doc.password, 'utf8').digest().toString()
     }
 
-    await redis.set(doc.name, JSON.stringify(doc, null, 2))
+    await redis
+        .multi()
+        .set(`users:${doc.id}`, JSON.stringify(doc, null, 2))
+        .sadd('users-outbox', doc.id)
+        .exec()
 
     return doc
 }
 
 const get = async name => {
-    const res = await redis.get(name)
-    return res
+    return redis.get(name)
 }
 
 export default {create, get}
