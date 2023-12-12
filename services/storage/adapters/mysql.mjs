@@ -10,7 +10,10 @@ const config = {
 const connection = await mysql.createConnection(config)
 
 const create = async (table, entity) => {
-    const statement = `INSERT INTO ${table} (id, password, first_name, second_name) VALUES('${user_id}', SHA2('${user.password}', 256), '${user.first_name || ''}', '${user.second_name || ''}');`
+    const keys = Object.keys(entity)
+    const values = Object.values(entity)
+    const statement = `INSERT INTO ${table} (${keys.join(', ')}) VALUES(${values.map(value => `"${value}"`).join(', ')});`
+    console.log('STATEMENT: ', statement)
     await connection.execute(statement)
 }
 
