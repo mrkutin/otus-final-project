@@ -1,4 +1,5 @@
-import kafka from './adapters/kafka.mjs'
+import kafkaAdapter from './adapters/kafka.mjs'
+import mysqlAdapter from './adapters/mysql.mjs'
 
 const processor = async ({topic, partition, message}) => {
     console.log({
@@ -10,4 +11,4 @@ const processor = async ({topic, partition, message}) => {
     })
 }
 
-await kafka.run(processor)
+await kafkaAdapter.run(processor)
