@@ -5,7 +5,7 @@ const KAFKA_PORT = parseInt(process.env.KAFKA_PORT) || 9092
 
 import {Kafka} from 'kafkajs'
 const kafka = new Kafka({
-    clientId: 'storage',
+    clientId: process.pid,
     brokers: [`${KAFKA_HOST}:${KAFKA_PORT}`]
 })
 
