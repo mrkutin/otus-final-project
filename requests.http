@@ -1,27 +1,51 @@
-#=================== Создание пользователя ===================
-# curl --location 'http://localhost:3000/users'
+# curl --location 'http://0.0.0.0:8080/users/'
 #--header 'Content-Type: application/json'
-#--data '{"name": "first", "password": "topsecret"}'
-POST http://localhost:3000/users
-Content-Type: application/json
-
-{"name": "first", "password": "topsecret"}
-
-###
-#=================== Создание пользователя ===================
-
-#=================== Получение пользователя ===================
-# curl --location --request GET 'http://localhost:3000/users/6569d0a6c5a5a959d39b80ad'
-#--header 'Content-Type: application/json'
-#--data '{"name": "first", "password": "topsecret"}'
-GET http://localhost:3000/users/6569d0a6c5a5a959d39b80ad
+#--data-raw '{
+#    "name": "user-one",
+#    "password": "topsecret",
+#    "email": "serge.kutin@gmail.com"
+#}'
+POST http://localhost:8080/users/
 Content-Type: application/json
 
 {
-  "name": "first",
-  "password": "topsecret"
+  "name": "user-one",
+  "password": "topsecret",
+  "email": "serge.kutin@gmail.com"
 }
 
 ###
-#=================== Получение пользователя ===================
 
+# curl --location 'http://0.0.0.0:8080/login'
+#--header 'Content-Type: application/json'
+#--data '{
+#    "id": "d12b104e-4a0a-434e-a4d2-0e09a3881a58",
+#    "password": "topsecret"
+#}'
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+    "id": "1119b6c6-3214-400f-9079-eaee68bd000a",
+    "password": "topsecret"
+}
+
+###
+
+# curl --location 'http://0.0.0.0:8080/users/da223fa1-8a40-4069-a111-576512b8f785/licenses/'
+#--header 'Content-Type: application/json'
+#--header 'Authorization: Bearer d7a70e15-2359-4a89-848c-48ce29d518b1'
+#--data '{
+#    "name": "some licenses",
+#    "expires": "2024-01-01"
+#}'
+POST http://localhost:8080/users/da223fa1-8a40-4069-a111-576512b8f785/licenses/
+Authorization: Bearer 08fcd72b-45a8-4428-b127-9df4162dc725
+Content-Type: application/json
+
+{
+  "name": "some licenses",
+  "expires": "2024-01-01"
+}
+
+###
