@@ -3,7 +3,7 @@ const router = express.Router()
 
 import {v4 as uuid} from 'uuid'
 
-import redisAdapter from '../adapters/redis.mjs'
+import adapter from '../adapters/redis.mjs'
 import authenticate from '../middlewares/authenticate.mjs'
 
 router.post('/users/:id/licenses', authenticate, async (req, res) => {
@@ -17,7 +17,7 @@ router.post('/users/:id/licenses', authenticate, async (req, res) => {
 
         doc.user_id = req.params.id
 
-        await redisAdapter.create(doc)
+        await adapter.create(doc)
 
         res.send(doc)
     } catch (err) {
