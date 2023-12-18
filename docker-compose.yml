@@ -55,6 +55,8 @@ services:
       replicas: 2
     environment:
       REDIS_HOST: redis
+      AUTH_HOST: nginx-one
+      AUTH_PORT: 80
     networks:
       - app-tier
 

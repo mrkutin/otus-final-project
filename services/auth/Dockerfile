@@ -5,4 +5,5 @@ RUN npm i
 COPY ./*.mjs ./
 COPY ./routers ./routers
 COPY ./adapters ./adapters
+COPY ./middlewares ./middlewares
 CMD npm start
