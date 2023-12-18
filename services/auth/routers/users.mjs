@@ -1,10 +1,7 @@
 import express from 'express'
 const router = express.Router()
 
-import {createHash} from 'node:crypto'
-import {v4 as uuid} from 'uuid'
-
-import redisAdapter from '../adapters/redis.mjs'
+import adapter from '../adapters/redis.mjs'
 
 router.post('/users', async (req, res) => {
     console.log(`${req.url} received ${JSON.stringify(req.body)}`)
@@ -13,15 +10,7 @@ router.post('/users', async (req, res) => {
     }
     try {
         const doc = req.body
-        if(!doc.id){
-            doc.id = uuid()
-        }
-
-        if (doc.password) {
-            doc.password = createHash('sha256').update(doc.password, 'utf8').digest('hex')
-        }
-
-        await redisAdapter.create(doc)
+        await adapter.create(doc)
         delete doc.password
         res.send(doc)
     } catch (err) {
@@ -29,20 +18,31 @@ router.post('/users', async (req, res) => {
     }
 })
 
-// router.get('/users/:name', async (req, res) => {
-//     if (!req.params.name) {
-//         return res.status(400).send('Невалидные данные')
-//     }
-//     try {
-//         const user = JSON.parse(await redisAdapter.get(req.params.name))
-//         if (user) {
-//             delete user.password
-//             return res.send(user)
-//         }
-//         res.status(404).send('Пользователь не найден')
-//     } catch (err) {
-//         return res.status(500).send(err.message)
-//     }
-// })
+router.post('/login', async (req, res) => {
+    if (!req.body.id || !req.body.password) {
+        return res.status(400).send('Невалидные данные')
+    }
+    try {
+        const token = await adapter.createToken(req.body.id, req.body.password)
+
+        if (token) {
+            return res.send({token})
+        }
+        res.status(404).send('Пользователь не найден')
+    } catch (err) {
+        console.log(err.message)
+        return res.status(500).send('Ошибка сервера')
+    }
+})
+
+import authenticate from '../middlewares/authenticate.mjs'
+router.post('/users/authenticate', authenticate, (req, res) => {
+    if(req.user) {
+        const {password, ...user} = req.user
+        return res.send(user)
+    }
+
+    return res.status(401).send('Пользователь не аутентифицирован')
+})
 
 export default router
