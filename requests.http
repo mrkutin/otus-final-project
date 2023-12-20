@@ -1,17 +1,4 @@
-# curl --location 'http://localhost:8081/users/da223fa1-8a40-4069-a111-576512b8f785/licenses/'
-#--header 'Authorization: Bearer ce4307b5-1b74-46d9-b541-692f1c6a28eb'
-GET http://localhost:8081/users/da223fa1-8a40-4069-a111-576512b8f785/licenses/
-Authorization: Bearer ce4307b5-1b74-46d9-b541-692f1c6a28eb
-
-###
-
-# curl --location 'http://0.0.0.0:8080/users/'
-#--header 'Content-Type: application/json'
-#--data-raw '{
-#    "name": "user-one",
-#    "password": "topsecret",
-#    "email": "serge.kutin@gmail.com"
-#}'
+# 1. Регистрируем нового пользователя
 POST http://localhost:8080/users/
 Content-Type: application/json
 
@@ -23,44 +10,32 @@ Content-Type: application/json
 
 ###
 
-# curl --location 'http://0.0.0.0:8080/login'
-#--header 'Content-Type: application/json'
-#--data '{
-#    "id": "d12b104e-4a0a-434e-a4d2-0e09a3881a58",
-#    "password": "topsecret"
-#}'
+# 2. Получаем токен авторизации для пользователя
 POST http://localhost:8080/login
 Content-Type: application/json
 
 {
-    "id": "7f45f135-0063-4846-8a9b-9b99ed973b5a",
+    "id": "<ID из ответа на запрос 1>",
     "password": "topsecret"
 }
 
 ###
 
-# curl --location 'http://0.0.0.0:8080/users/da223fa1-8a40-4069-a111-576512b8f785/licenses/'
-#--header 'Content-Type: application/json'
-#--header 'Authorization: Bearer d7a70e15-2359-4a89-848c-48ce29d518b1'
-#--data '{
-#    "name": "some licenses",
-#    "expires": "2024-01-01"
-#}'
-POST http://localhost:8080/users/da223fa1-8a40-4069-a111-576512b8f785/licenses/
-Authorization: Bearer ce4307b5-1b74-46d9-b541-692f1c6a28eb
+#  3. Создаем лицензии для пользователя (выполняем несколько раз)
+POST http://localhost:8080/users/<ID из ответа на запрос 1>/licenses/
+Authorization: Bearer <Токен из ответа на запрос 2>
 Content-Type: application/json
 
 {
-  "name": "some licenses",
+  "name": "some license",
   "expires": "2024-01-01"
 }
 
 ###
 
-# curl --location 'http://localhost:8081/users/da223fa1-8a40-4069-a111-576512b8f785/licenses/'
-#--header 'Authorization: Bearer ce4307b5-1b74-46d9-b541-692f1c6a28eb'
-GET http://localhost:8081/users/da223fa1-8a40-4069-a111-576512b8f785/licenses/
-Authorization: Bearer ce4307b5-1b74-46d9-b541-692f1c6a28eb
+# 4. Получаем лицензии пользователя
+GET http://localhost:8080/users/<ID из ответа на запрос 1>/licenses/
+Authorization: Bearer <Токен из ответа на запрос 2>
 
 ###
 
