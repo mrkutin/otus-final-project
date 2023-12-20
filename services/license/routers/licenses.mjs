@@ -24,5 +24,13 @@ router.post('/users/:id/licenses', authenticate, async (req, res) => {
         return res.status(500).send(err.message)
     }
 })
+router.get('/users/:id/licenses', authenticate, async (req, res) => {
+    try {
+        const licenses = await adapter.findByUserId(req.params.id)
+        res.send(licenses)
+    } catch (err) {
+        return res.status(500).send(err.message)
+    }
+})
 
 export default router
